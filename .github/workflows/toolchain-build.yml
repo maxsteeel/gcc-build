@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-arm64-tc:
-    runs-on: buildjet-64vcpu-ubuntu-latest
+    runs-on: buildjet-64vcpu-ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v6
@@ -51,7 +51,7 @@ jobs:
          gcc-version
 
   build-arm-tc:
-    runs-on: buildjet-64vcpu-ubuntu-latest
+    runs-on: buildjet-64vcpu-ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v6
@@ -84,7 +84,7 @@ jobs:
 
   publish-release:
       needs: [build-arm64-tc,build-arm-tc]
-      runs-on: buildjet-64vcpu-ubuntu-latest
+      runs-on: buildjet-64vcpu-ubuntu-22.04
 
       steps:
         - uses: actions/checkout@v6
