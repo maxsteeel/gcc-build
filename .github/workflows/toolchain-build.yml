@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   schedule:
     - cron: '0 0 * * 0,4'
+  workflow_dispatch:
 
 env:
       GITHUB_EMAIL: ${{ secrets.EMAIL }}
