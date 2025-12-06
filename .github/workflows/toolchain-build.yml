@@ -22,7 +22,7 @@ jobs:
       id: get-date
       run: |
         sudo ln -sf /usr/share/zoneinfo/America/Caracas /etc/localtime
-        echo ::set-output name=date::$(/bin/date -u "+%Y%m%d")
+        echo ::set-output name=date::$(/bin/date -u "+%d%m%Y-%I:%M-%Z")
     - name: Setup
       run: |
         sudo apt-get update
@@ -74,7 +74,7 @@ jobs:
         bash "$script_dir/strip-binaries.sh"
     - name: Create tarball
       run: |
-        tar -cvf eva-gcc-armgnu-$(/bin/date -u '+%d%m%Y').xz gcc-armgnu/*
+        tar -cvf eva-gcc-armgnu-$(/bin/date -u '+%d%m%Y-%I:%M-%Z').xz gcc-armgnu/*
 
     - uses: actions/upload-artifact@main
       with:
@@ -94,7 +94,7 @@ jobs:
             path: ${{ github.workspace }}
         - name: Release Tag
           id: release_tag
-          run: echo "TAG_NAME='$(date -u +%d%m%Y)'" >> $GITHUB_ENV
+          run: echo "TAG_NAME='$(date -u +%d%m%Y-%I:%M-%Z)'" >> $GITHUB_ENV
         - name: Create Release
           run: |
             gh release create ${{ env.TAG_NAME }} -F aarch64-tarball/gcc-version */*.xz
