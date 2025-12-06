@@ -34,7 +34,7 @@ jobs:
         ./build-gcc.sh -a arm64gnu
         ./build-lld.sh -a arm64gnu
         script_dir=$(pwd)
-        cd gcc-arm64
+        cd gcc-arm64gnu
         ./bin/aarch64-linux-gnu-gcc -v 2>&1 | tee ../gcc-version
         ./bin/aarch64-linux-gnu-ld.lld -v 2>&1 | tee ../lld-arm64-version
         bash "$script_dir/strip-binaries.sh"
