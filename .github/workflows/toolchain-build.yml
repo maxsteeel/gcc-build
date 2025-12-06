@@ -31,17 +31,17 @@ jobs:
       run: |
         chmod a+x build-*.sh
         curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" -d chat_id="${CHAT_ID}" -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="<b>Starting ARM64 GCC Build</b>"
-        ./build-gcc.sh -a arm64
+        ./build-gcc.sh -a arm64gnu
         ./build-lld.sh -a arm64
         script_dir=$(pwd)
         cd gcc-arm64
-        ./bin/aarch64-elf-gcc -v 2>&1 | tee ../gcc-version
-        ./bin/aarch64-elf-ld.lld -v 2>&1 | tee ../lld-arm64-version
+        ./bin/aarch64-linux-gnu-gcc -v 2>&1 | tee ../gcc-version
+        ./bin/aarch64-linux-gnu-ld.lld -v 2>&1 | tee ../lld-arm64-version
         bash "$script_dir/strip-binaries.sh"
         cd ../ && cat lld-arm64-version >> gcc-version
     - name: Create tarball
       run: |
-        tar -cvf eva-gcc-arm64-$(/bin/date -u '+%d%m%Y').xz gcc-arm64/*
+        tar -cvf eva-gcc-arm64gnu-$(/bin/date -u '+%d%m%Y').xz gcc-arm64gnu/*
 
     - uses: actions/upload-artifact@main
       with:
@@ -68,13 +68,13 @@ jobs:
       run: |
         chmod a+x build-*.sh
         curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" -d chat_id="${CHAT_ID}" -d "disable_web_page_preview=true" -d "parse_mode=html" -d text="<b>Starting ARM (32-bit) GCC Build</b>"
-        ./build-gcc.sh -a arm
+        ./build-gcc.sh -a armgnu
         ./build-lld.sh -a arm
         script_dir=$(pwd)
         bash "$script_dir/strip-binaries.sh"
     - name: Create tarball
       run: |
-        tar -cvf eva-gcc-arm-$(/bin/date -u '+%d%m%Y').xz gcc-arm/*
+        tar -cvf eva-gcc-armgnu-$(/bin/date -u '+%d%m%Y').xz gcc-armgnu/*
 
     - uses: actions/upload-artifact@main
       with:
